@@ -10,6 +10,11 @@
       source_path: /opt/artifactory_packages/
       dest_path: /usr/share/tomcat/webapps/
   tasks:
+      - name: create artifactory folder
+        file:
+           path: /opt/artifactory_packages
+           state: directory
+           recurse: yes
       - name: download artifact from artifary
         get_url:
           url: "{{ artifactory_url }}{{ application_artifact}}"
