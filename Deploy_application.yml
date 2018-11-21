@@ -1,0 +1,27 @@
+---
+
+- hosts: app_server
+  remote_user: root
+  become: yes
+  become_method: sudo
+    vars:
+      artifactory_url: http://13.250.14.248:8081/artifactory/WebappJava/
+      application_artifact: StrutsLoginEx.war
+      source_path: /opt/artifactory_packages/
+      dest_path: /usr/share/tomcat/webapps/
+    tasks:
+      - name: download artifact from artifary
+        get_url:
+          url: "{{ artifactory_url }}{{ application_artifact}}"
+          dest: "{{ source_path }}"
+      - name: copy file to tomcat folder
+        copy:
+          src: "{{ source_path }}{{ application_artifact }}"
+          dest: "{{ dest_path }}{{ application_artifact }}"
+          owner: tomcat
+          group: tomcat
+          mode: 0755
+      - name: Restart Tomcat
+        service: name=tomcat state=started enabled=yes
+      - name: wait for tomcat to start
+        wait_for: port={{http_port}}
