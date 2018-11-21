@@ -9,6 +9,8 @@
       application_artifact: StrutsLoginEx.war
       source_path: /opt/artifactory_packages/
       dest_path: /usr/share/tomcat/webapps/
+      http_port: 8080
+      https_port: 8443
   tasks:
       - name: create artifactory folder
         file:
