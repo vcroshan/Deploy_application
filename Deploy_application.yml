@@ -20,14 +20,14 @@
       - name: download artifact from artifary
         get_url:
           url: "{{ artifactory_url }}{{ application_artifact}}"
-          dest: "{{ source_path }}"
-      - name: copy file to tomcat folder
-        copy:
-          src: "{{ source_path }}{{ application_artifact }}"
-          dest: "{{ dest_path }}{{ application_artifact }}"
-          owner: tomcat
-          group: tomcat
-          mode: 0755
+          dest: "{{ dest_path }}"
+     # - name: copy file to tomcat folder
+     #   copy:
+     #     src: "{{ source_path }}{{ application_artifact }}"
+     #     dest: "{{ dest_path }}{{ application_artifact }}"
+     #     owner: tomcat
+     #     group: tomcat
+     #     mode: 0755
       - name: Restart Tomcat
         service: name=tomcat state=started enabled=yes
       - name: wait for tomcat to start
